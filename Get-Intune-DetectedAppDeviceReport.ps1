@@ -1,28 +1,3 @@
-﻿<#
-.SYNOPSIS
-    Get Intune Detected App – Device Inventory Report
-   
-
-
-# ==========================================
-# Script start time
-# ==========================================
-$ScriptStartTime = Get-Date
-
-# ==========================================
-# User Input 
-# ==========================================
-$AppName        = "Google Chrome"                # Application Nmae
-$Platform       = "windows"                      # Enter the Platform e.g- Windows,AndroidFullyManagedDedicated,Other,AndroidWorkProfile,IOS,AndroidDeviceAdministrator
-$FilterOperator = "like"                         # Choose filter operator: 'like' or 'eq'
-$OutputPath     = "C:\Temp\DiscoveredApps"       # Application reporting folder Location
-
-# ==========================================
-# Ensure output path exists
-# ==========================================
-if (-not (Test-Path $OutputPath)) {
-    New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
-}
 
 # ==========================================
 # Check Microsoft.Graph module
@@ -43,6 +18,31 @@ Import-Module Microsoft.Graph.DeviceManagement
 Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
 setx MSAL_FORCE_WAM 0
 Connect-MgGraph -Scopes DeviceManagementManagedDevices.Read.All
+
+
+# =========================================================================================================#
+
+# ==========================================
+# Script start time
+# ==========================================
+$ScriptStartTime = Get-Date
+
+# ==========================================
+# User Input 
+# ==========================================
+$AppName        = "edge"                # Application Nmae
+$Platform       = "windows"                      # Enter the Platform e.g- Windows,AndroidFullyManagedDedicated,Other,AndroidWorkProfile,IOS,AndroidDeviceAdministrator
+$FilterOperator = "like"                         # Choose filter operator: 'like' or 'eq'
+$OutputPath     = "C:\Temp\DiscoveredApps"       # Application reporting folder Location
+
+# ==========================================
+# Ensure output path exists
+# ==========================================
+if (-not (Test-Path $OutputPath)) {
+    New-Item -ItemType Directory -Path $OutputPath -Force | Out-Null
+}
+
+
 
 # ==========================================
 # Validate filter operator
@@ -92,7 +92,7 @@ elseif ($FilterOperator -eq 'eq') {
 
 if (-not $apps) {
     Write-Host "No detected apps found for '$AppName' on platform '$Platform'." -ForegroundColor Red
-    Disconnect-MgGraph
+    #Disconnect-MgGraph
     return
 }
 
